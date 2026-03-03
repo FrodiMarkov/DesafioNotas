@@ -8,7 +8,9 @@ import com.example.Modelos.NotaConItems
 class NotasDAOImpl : NotasDAO {
     override fun insertarRandom(nota: Nota, items: List<ItemTarea>?): Boolean {
         var idAsignado = 1
-        val queryCount = "SELECT u.id FROM usuario u LEFT JOIN nota n ON u.id = n.id_trabajador GROUP BY u.id ORDER BY COUNT(n.id) ASC LIMIT 1"
+        //hago el count de las veces que aparece el id en la base de datos
+        //y de ahi saco el que tenga el mayor para asignarle la tarea.
+        val queryCount = "SELECT u.id FROM usuario u LEFT JOIN nota n ON u.id = n.id_trabajador GROUP BY u.id ORDER BY COUNT(n.id)"
 
         Database.getConnection()?.use { conn ->
             var statement = conn.prepareStatement(queryCount)
@@ -49,6 +51,7 @@ class NotasDAOImpl : NotasDAO {
         }
         return false
     }
+
     override fun insertarAIdEspecifico(nota: Nota, items: List<ItemTarea>?): Boolean {
         val sqlInsertNota = "INSERT INTO nota (titulo, descripcion, tipo, cargatrabajo, id_trabajador) VALUES (?, ?, ?, ?, ?)"
 
@@ -83,6 +86,7 @@ class NotasDAOImpl : NotasDAO {
         }
         return false
     }
+
     override fun obtenerTodas(): List<NotaConItems> {
         val lista = mutableListOf<NotaConItems>()
         val sql = "SELECT * FROM nota"
@@ -122,6 +126,7 @@ class NotasDAOImpl : NotasDAO {
         }
         return lista
     }
+
     override fun actualizar(id: Int, nota: Nota, items: List<ItemTarea>?): Boolean {
         val sql = "UPDATE nota SET titulo = ?, descripcion = ?, tipo = ?, cargatrabajo = ?, id_trabajador = ? WHERE id = ?"
         val connection = Database.getConnection()

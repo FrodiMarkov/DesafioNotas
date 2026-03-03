@@ -14,7 +14,6 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
-        // Static plugin. Try to access `/static/index.html`
         staticResources("/static", "static")
         userRouting()
         notaRouting()
