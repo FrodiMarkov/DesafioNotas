@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/notasUsuarioFragment"
+        android:title="Notas"
+        android:icon="@drawable/ic_menu_opcion_1" />
+    <item
+        android:id="@+id/perfilFragment2"
+        android:title="Perfil"
+        android:icon="@drawable/ic_menu_opcion_2" />
+    <item
+        android:id="@+id/nav_lateral_salir"
+        android:title="Cerrar Sesion"
+        android:icon="@drawable/ic_menu_opcion_3" />
+</menu>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_notas"
+        android:title="Notas"
+        android:icon="@drawable/ic_menu_opcion_1" />
+    <item
+        android:id="@+id/nav_perfil"
+        android:title="Perfil"
+        android:icon="@drawable/ic_menu_opcion_2" />
+    <item
+        android:id="@+id/nav_usuarios"
+        android:title="Usuarios"
+        android:icon="@drawable/ic_menu_opcion_3" />
+    <item
+        android:id="@+id/nav_lateral_salir"
+        android:title="Cerrar Sesion"
+        android:icon="@drawable/ic_menu_opcion_4" />
+</menu>
