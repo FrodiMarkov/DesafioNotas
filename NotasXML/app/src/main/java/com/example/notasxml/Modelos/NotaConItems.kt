@@ -1,9 +1,8 @@
 package com.example.Modelos
 
 import kotlinx.serialization.Serializable
-
 @Serializable
-data class NotaRequest(
+data class NotaConItems(
     val nota: Nota,
-    val items: List<ItemTarea>? = null
+    val items: List<ItemTarea>
 )

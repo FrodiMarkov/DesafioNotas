@@ -11,24 +11,28 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UsuariosAPI {
-    @POST("login")
+
+    // POST http://localhost:8095/usuarios/login
+    @POST("usuarios/login")
     suspend fun login(@Body p: PersonaLogin): Response<Persona>
 
-    @POST("registrar")
+    // POST http://localhost:8095/usuarios/registrar
+    @POST("usuarios/registrar")
     suspend fun insertar(@Body persona: Persona): Response<Unit>
 
-    // Ktor: route("/usuario") { get("{dni?}") }
-    @GET("usuario/{dni}")
+    // GET http://localhost:8095/usuarios/ver/{dni}
+    @GET("usuarios/ver/{dni}")
     suspend fun obtener(@Path("dni") dni: String): Response<Persona>
 
-    // Ktor: route("/modificar") { put("{dni?}") }
-    @PUT("modificar/{dni}")
+    // PUT http://localhost:8095/usuarios/modificar/{dni}
+    @PUT("usuarios/modificar/{dni}")
     suspend fun actualizar(@Path("dni") dni: String, @Body persona: Persona): Response<Unit>
 
-    // Ktor: route("/borrar") { delete("{dni?}") }
-    @DELETE("borrar/{dni}")
+    // DELETE http://localhost:8095/usuarios/borrar/{dni}
+    @DELETE("usuarios/borrar/{dni}")
     suspend fun eliminar(@Path("dni") dni: String): Response<Unit>
 
-    @GET("usuario")
+    // GET http://localhost:8095/usuarios
+    @GET("usuarios")
     suspend fun obtenerTodos(): Response<List<Persona>>
 }

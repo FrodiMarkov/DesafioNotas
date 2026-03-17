@@ -36,6 +36,10 @@ class EditarUsuarioActivity : AppCompatActivity() {
             Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
         }
 
+        binding.etNombreEditar.isClickable = false
+        binding.etDniEditar.isClickable = false
+        binding.etPasswordEditar.isClickable = false
+
         binding.spinnerRolEditar.setAdapter(adapter)
 
         binding.btnVolverEditar.setOnClickListener { finish() }
@@ -43,9 +47,9 @@ class EditarUsuarioActivity : AppCompatActivity() {
         binding.btnGuardarCambios.setOnClickListener {
             val usuarioActual = UsuarioHolder.usuario
             if (usuarioActual != null) {
-                val nombre = binding.etNombreEditar.text.toString().trim()
-                val dni = binding.etDniEditar.text.toString().trim()
-                val pass = binding.etPasswordEditar.text.toString().trim()
+                val nombre = binding.etNombreEditar.text.toString()
+                val dni = binding.etDniEditar.text.toString()
+                val pass = binding.etPasswordEditar.text.toString()
                 val rolTexto = binding.spinnerRolEditar.text.toString()
 
                 if (nombre.isNotEmpty() && dni.isNotEmpty() && pass.isNotEmpty()) {
@@ -65,6 +69,7 @@ class EditarUsuarioActivity : AppCompatActivity() {
             }
         }
 
+        //cargo los datos del holder
         val usuario = UsuarioHolder.usuario
         if (usuario != null) {
             binding.etNombreEditar.setText(usuario.nombre)
@@ -75,7 +80,7 @@ class EditarUsuarioActivity : AppCompatActivity() {
             } else {
                 "Usuario"
             }
-            binding.spinnerRolEditar.setText(rolTexto, false)
+            binding.spinnerRolEditar.setText(rolTexto)
         }
 
     }

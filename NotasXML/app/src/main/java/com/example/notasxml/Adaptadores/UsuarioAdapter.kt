@@ -43,12 +43,25 @@ class UsuarioAdapter(private val viewModel: UsuarioViewModel) :
             }
 
             binding.root.setOnLongClickListener {
-                try {
-                    viewModel.deletePersona(persona.dni)
-                    Toast.makeText(binding.root.context, "${persona.nombre} eliminado", Toast.LENGTH_SHORT).show()
-                } catch (e: Exception) {
-                    Toast.makeText(binding.root.context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+                val context = binding.root.context
+
+                androidx.appcompat.app.AlertDialog.Builder(context)
+                    .setTitle("Eliminar persona")
+                    .setMessage("¿Estás seguro de que quieres eliminar a ${persona.nombre}?")
+                    .setPositiveButton("Sí") { dialog, _ ->
+                        try {
+                            viewModel.deletePersona(persona.dni)
+                            Toast.makeText(context, "${persona.nombre} eliminado", Toast.LENGTH_SHORT).show()
+                        } catch (e: Exception) {
+                            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("No") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+
                 true
             }
         }

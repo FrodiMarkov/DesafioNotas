@@ -12,4 +12,11 @@ object Retrofit {
             .build()
             .create(UsuariosAPI::class.java)
     }
+    val notasRetrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(Parametros.url + ":" + Parametros.puerto + "/")
+            .addConverterFactory(create())
+            .build()
+            .create(NotasAPI::class.java)
+    }
 }
