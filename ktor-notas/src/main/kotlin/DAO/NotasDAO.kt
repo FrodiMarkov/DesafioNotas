@@ -10,4 +10,5 @@ interface NotasDAO {
     fun obtenerTodas(): List<NotaConItems>
     fun actualizar(id: Int, nota: Nota, items: List<ItemTarea>?): Boolean
     fun borrar(id: Int) : Boolean
+    fun obtenerPorUsuario(idTrabajador: Int): List<NotaConItems>
 }

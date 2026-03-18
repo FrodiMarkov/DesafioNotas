@@ -1,5 +1,6 @@
 package com.example.notasxml
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -27,17 +28,29 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.usuarioLogeado.observe(this) { persona ->
             if (persona != null) {
-                val destino = when (persona.rol) {
-                    1 -> PaginaPrincipalAdminActivity::class.java
-                    0 -> PaginaPrincipalUsuarioActivity::class.java
-                    else -> null
+                if (persona.rol == 1) {
+                    AlertDialog.Builder(this)
+                        .setTitle("Seleccionar modo")
+                        .setMessage("Has iniciado sesión como Administrador. ¿Cómo deseas entrar?")
+                        .setPositiveButton("Entrar como Admin") { _, _ ->
+                            UsuarioHolder.usuario = persona
+                            val intent = Intent(this, PaginaPrincipalAdminActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("Entrar como Usuario") { _, _ ->
+                            UsuarioHolder.usuario = persona
+                            val intent = Intent(this, PaginaPrincipalUsuarioActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNeutralButton("Cancelar", null)
+                        .show()
                 }
-
-                if (destino != null) {
-                    val intent = Intent(this, destino)
+                else if (persona.rol == 0) {
                     UsuarioHolder.usuario = persona
+                    val intent = Intent(this, PaginaPrincipalUsuarioActivity::class.java)
                     startActivity(intent)
-                } else {
+                }
+                else {
                     Toast.makeText(this, "Error: Rol no definido para este usuario", Toast.LENGTH_SHORT).show()
                 }
             }

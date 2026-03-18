@@ -7,16 +7,33 @@
     android:padding="16dp"
     tools:context=".NotasUsuarioFragment">
 
-    <Button
-        android:id="@+id/btnAnadirNotaUsuario"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/llContenedorBotones"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Añadir Nueva Nota"
-        app:cornerRadius="8dp"
-        app:icon="@android:drawable/ic_input_add"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnAnadirNota"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:text="Nota"
+            app:icon="@android:drawable/ic_input_add" />
+
+        <Button
+            android:id="@+id/btnAnadirTarea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:text="Tarea"
+            app:icon="@android:drawable/ic_input_add" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNotasUsuario"
@@ -26,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnAnadirNotaUsuario"
+        app:layout_constraintTop_toBottomOf="@id/llContenedorBotones"
         tools:listitem="@layout/notas_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

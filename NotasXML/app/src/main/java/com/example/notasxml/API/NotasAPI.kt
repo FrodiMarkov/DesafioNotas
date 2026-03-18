@@ -27,4 +27,7 @@ interface NotasAPI {
     // DELETE http://localhost:8095/notas/borrar/5
     @DELETE("notas/borrar/{id}")
     suspend fun borrar(@Path("id") id: Int): Response<Boolean>
+
+    @GET("notas/usuario/{id}")
+    suspend fun obtenerPorUsuario(@Path("id") id: Int): Response<List<NotaConItems>>
 }

@@ -197,4 +197,47 @@ class NotasDAOImpl : NotasDAO {
             filasBorradas > 0 // Si devuelve false aquí, el ID no coincide exactamente
         } ?: false
     }
+
+    override fun obtenerPorUsuario(idTrabajador: Int): List<NotaConItems> {
+        val lista = mutableListOf<NotaConItems>()
+        // FILTRO CRUCIAL: Añadimos el WHERE id_trabajador = ?
+        val sql = "SELECT * FROM nota WHERE id_trabajador = ?"
+        val connection = Database.getConnection()
+
+        connection?.use { conn ->
+            val statement = conn.prepareStatement(sql)
+            statement.setInt(1, idTrabajador) // Pasamos el ID del usuario logueado
+            val resultSet = statement.executeQuery()
+
+            while (resultSet.next()) {
+                val nota = Nota(
+                    id = resultSet.getInt("id"),
+                    titulo = resultSet.getString("titulo"),
+                    descripcion = resultSet.getString("descripcion"),
+                    tipo = resultSet.getString("tipo"),
+                    cargatrabajo = resultSet.getInt("cargatrabajo"),
+                    id_trabajador = resultSet.getInt("id_trabajador"),
+                    fecha = resultSet.getDate("fecha").toString()
+                )
+
+                val items = mutableListOf<ItemTarea>()
+                if (nota.tipo.lowercase() == "tarea") {
+                    val sqlItems = "SELECT * FROM itemstarea WHERE notaid = ?"
+                    val stItems = conn.prepareStatement(sqlItems)
+                    stItems.setInt(1, nota.id!!)
+                    val rsItems = stItems.executeQuery()
+                    while (rsItems.next()) {
+                        items.add(ItemTarea(
+                            id = rsItems.getInt("id"),
+                            notaId = rsItems.getInt("notaid"),
+                            descripcion = rsItems.getString("descripcion_item"),
+                            completado = rsItems.getBoolean("completado")
+                        ))
+                    }
+                }
+                lista.add(NotaConItems(nota, items))
+            }
+        }
+        return lista
+    }
 }
