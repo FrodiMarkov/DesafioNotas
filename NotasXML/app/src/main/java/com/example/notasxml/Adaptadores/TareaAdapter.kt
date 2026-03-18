@@ -14,20 +14,17 @@ class TareaAdapter : ListAdapter<ItemTarea, TareaAdapter.TareaViewHolder>(DiffCa
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ItemTarea, position: Int, adapter: TareaAdapter) {
-            // Limpiar listener para evitar disparos al reciclar vistas
             binding.cbCompletado.setOnCheckedChangeListener(null)
 
             binding.tvDescripcion.text = item.descripcion
             binding.cbCompletado.isChecked = item.completado
 
-            // Listener para actualizar el estado del checkbox en la lista
             binding.cbCompletado.setOnCheckedChangeListener { _, isChecked ->
                 val listaActual = adapter.currentList.toMutableList()
                 listaActual[position] = item.copy(completado = isChecked)
                 adapter.submitList(listaActual)
             }
 
-            // Borrar item con click largo (opcional)
             binding.root.setOnLongClickListener {
                 val listaActual = adapter.currentList.toMutableList()
                 listaActual.removeAt(position)
@@ -38,7 +35,6 @@ class TareaAdapter : ListAdapter<ItemTarea, TareaAdapter.TareaViewHolder>(DiffCa
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TareaViewHolder {
-        // CORRECCIÓN: Se pasa 'parent' como segundo argumento, no el contexto
         val binding = ItemTareaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TareaViewHolder(binding)
     }

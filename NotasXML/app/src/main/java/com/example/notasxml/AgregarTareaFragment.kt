@@ -41,9 +41,7 @@ class AgregarTareaFragment : Fragment() {
         viewModel.cargarUsuarios()
         viewModel.usuarios.observe(viewLifecycleOwner) { usuarios ->
             listaUsuarios = usuarios
-            val nombres = usuarios.map { it.nombre }
-            // IMPORTANTE: Especificar <String> para evitar errores de tipo
-            val adapterDrop = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, nombres)
+            val adapterDrop = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, usuarios)
             binding.dropUsuarios.setAdapter(adapterDrop)
         }
 
@@ -63,7 +61,6 @@ class AgregarTareaFragment : Fragment() {
             val desc = binding.etDescripcion.text.toString().trim()
             val nombreUser = binding.dropUsuarios.text.toString()
 
-            // Buscamos si el nombre existe en nuestra lista
             val userObj = listaUsuarios.find { it.nombre == nombreUser }
 
             if (titulo.isEmpty() || desc.isEmpty()) {
@@ -71,25 +68,21 @@ class AgregarTareaFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // Preparamos la nota básica
             val nota = Nota(
                 titulo = titulo,
                 descripcion = desc,
                 tipo = "Tarea",
                 cargatrabajo = adapter.currentList.size,
-                id_trabajador = userObj?.id ?: 0, // Si es null (random), mandamos 0 o lo que pida la API
+                id_trabajador = userObj?.id ?: 0,
                 fecha = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
             )
 
             val request = NotaRequest(nota, adapter.currentList)
 
-            // LÓGICA DE DECISIÓN
             if (userObj != null) {
-                // Hay usuario seleccionado -> ESPECÍFICO
                 viewModel.crearTareaEspecifica(request)
                 Toast.makeText(requireContext(), "Guardando para ${userObj.nombre}...", Toast.LENGTH_SHORT).show()
             } else {
-                // No hay selección o el nombre no coincide -> RANDOM
                 viewModel.crearTareaRandom(request)
                 Toast.makeText(requireContext(), "Guardando para usuario aleatorio...", Toast.LENGTH_SHORT).show()
             }

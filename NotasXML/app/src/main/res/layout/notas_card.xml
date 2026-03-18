@@ -23,10 +23,20 @@
             android:textColor="@android:color/black"
             android:ellipsize="end"
             android:maxLines="1"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvFechaItem"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTipoItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TIPO"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTituloItem" />
 
         <TextView
             android:id="@+id/tvFechaItem"
@@ -35,9 +45,9 @@
             android:text="2026-03-03"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="@+id/tvTituloItem"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvTituloItem" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

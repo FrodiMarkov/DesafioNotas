@@ -34,17 +34,14 @@ class PaginaPrincipalUsuarioActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        // VINICULACIÓN AUTOMÁTICA (Esto arregla la selección de la BottomBar)
         binding.miBottomNav.setupWithNavController(navController)
         binding.navigationView.setupWithNavController(navController)
 
-        // Manejo manual solo para el botón de salir del Drawer
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             if (menuItem.itemId == R.id.nav_lateral_salir) {
                 finish()
                 true
             } else {
-                // Navega automáticamente y cierra el drawer
                 val handled = menuItem.onNavDestinationSelected(navController)
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
                 handled

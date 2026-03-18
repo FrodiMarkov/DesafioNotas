@@ -21,7 +21,7 @@ class RegistroActivity : AppCompatActivity() {
         viewModel.registroExitoso.observe(this) { exito ->
             if (exito) {
                 Toast.makeText(this, "¡Registro completado!", Toast.LENGTH_SHORT).show()
-                finish() // Cerramos esta pantalla y volvemos al Login
+                finish()
             }
         }
 

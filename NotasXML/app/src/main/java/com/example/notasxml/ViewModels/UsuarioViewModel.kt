@@ -19,8 +19,6 @@ class UsuarioViewModel : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
-
-    // Ahora la función se llama manualmente
     fun obtenerUsuarios() {
         viewModelScope.launch {
             try {

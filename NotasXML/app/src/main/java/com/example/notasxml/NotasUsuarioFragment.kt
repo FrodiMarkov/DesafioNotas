@@ -1,5 +1,6 @@
 package com.example.notasxml
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,77 +10,54 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.notasxml.Helpers.UsuarioHolder
-import com.example.notasxml.ViewModels.NotasUsuarioViewModel
+import com.example.notasxml.ViewModels.NotasViewModel
 import com.example.notasxml.databinding.FragmentNotasUsuarioBinding
 
 class NotasUsuarioFragment : Fragment() {
 
-    private var _binding: FragmentNotasUsuarioBinding? = null
-    private val binding get() = _binding!!
-
-    private val viewModel: NotasUsuarioViewModel by viewModels()
+    // Uso de lateinit como pediste para evitar los nulos de _binding
+    private lateinit var binding: FragmentNotasUsuarioBinding
+    private val viewModel: NotasViewModel by viewModels()
     private lateinit var notasAdapter: NotasUsuarioAdapter
 
-    var usuario = UsuarioHolder.usuario
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentNotasUsuarioBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentNotasUsuarioBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
-        setupButtons()
-        setupObservers()
-
-        // Carga inicial de datos
-        viewModel.cargarNotasDelUsuario(usuario.id)
-    }
-
-    private fun setupRecyclerView() {
         notasAdapter = NotasUsuarioAdapter(viewModel)
         binding.rvNotasUsuario.apply {
             adapter = notasAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
         }
-    }
 
-    private fun setupButtons() {
-        // Acción para añadir Nota
         binding.btnAnadirNota.setOnClickListener {
-            // Aquí navegarías a tu Fragment de creación de notas
-            Toast.makeText(context, "Navegando a Nueva Nota...", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(requireContext(), CrearNotaUsuario::class.java))
         }
 
-        // Acción para añadir Tarea
         binding.btnAnadirTarea.setOnClickListener {
-            // Aquí navegarías a tu Fragment de creación de tareas
-            Toast.makeText(context, "Navegando a Nueva Tarea...", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(requireContext(), CrearTareaUsuario::class.java))
         }
-    }
 
-    private fun setupObservers() {
-        // Observar la lista de notas
         viewModel.notas.observe(viewLifecycleOwner) { lista ->
-            notasAdapter.submitList(lista)
+            notasAdapter.submitList(lista?.toList())
         }
 
-        // Observar posibles errores de la API
         viewModel.error.observe(viewLifecycleOwner) { mensaje ->
-            if (mensaje.isNotEmpty()) {
-                Toast.makeText(context, mensaje, Toast.LENGTH_LONG).show()
+            mensaje?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onResume() {
+        super.onResume()
+        val id = UsuarioHolder.usuario.id
+        if (id > 0) {
+            viewModel.cargarNotasDelUsuario(id)
+        }
     }
 }

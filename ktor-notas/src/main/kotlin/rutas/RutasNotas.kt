@@ -3,6 +3,7 @@ package com.example.rutas
 import Modelos.Respuesta
 import com.example.DAO.NotasDAO
 import com.example.DAO.NotasDAOImpl
+import com.example.Modelos.NotaConItems
 import com.example.Modelos.NotaRequest
 import io.ktor.http.*
 import io.ktor.server.request.*
@@ -13,7 +14,6 @@ fun Route.notaRouting() {
     val notaDAO: NotasDAO = NotasDAOImpl()
 
     route("/notas") {
-        // GET http://localhost:8095/notas
         get {
             val notas = notaDAO.obtenerTodas()
             if (notas.isNotEmpty()) {
@@ -22,8 +22,19 @@ fun Route.notaRouting() {
                 call.respond(HttpStatusCode.NoContent)
             }
         }
+        get("/usuario/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.BadRequest, "ID no válido")
 
-        // POST http://localhost:8095/notas/registrarAuto
+            // Suponiendo que tu notaDAO tiene este método (debes implementarlo si no existe)
+            val notasDelUsuario = notaDAO.obtenerPorUsuario(id)
+
+            if (notasDelUsuario.isNotEmpty()) {
+                call.respond(HttpStatusCode.OK, notasDelUsuario)
+            } else {
+                call.respond(HttpStatusCode.OK, emptyList<NotaConItems>())
+            }
+        }
+
         post("/registrarAuto") {
             try {
                 val request = call.receive<NotaRequest>()
@@ -37,7 +48,6 @@ fun Route.notaRouting() {
             }
         }
 
-        // POST http://localhost:8095/notas/registrar
         post("/registrar") {
             try {
                 val request = call.receive<NotaRequest>()
@@ -51,7 +61,6 @@ fun Route.notaRouting() {
             }
         }
 
-        // PUT http://localhost:8095/notas/modificar/5
         put("/modificar/{id?}") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@put call.respond(HttpStatusCode.BadRequest, "id vacío en la url")
             try {
@@ -66,7 +75,6 @@ fun Route.notaRouting() {
             }
         }
 
-        // DELETE http://localhost:8095/notas/borrar/5
         delete("/borrar/{id?}") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@delete call.respondText("id vacío en la url", status = HttpStatusCode.BadRequest)
             if (notaDAO.borrar(id)) {

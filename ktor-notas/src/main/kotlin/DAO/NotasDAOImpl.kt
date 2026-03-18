@@ -9,20 +9,17 @@ import java.sql.Date // Importante para manejar la fecha de SQL
 class NotasDAOImpl : NotasDAO {
     override fun insertarRandom(nota: Nota, items: List<ItemTarea>?): Boolean {
         var idAsignado = 1
-        //hago el count de las veces que aparece el id en la base de datos
-        //y de ahi saco el que tenga el mayor para asignarle la tarea.
-        // Cambio: Ordenamos por la suma de cargatrabajo para encontrar al que menos tiene
+        // hago una suma de la carga de trabajo por el id y lo ordeno de menor a mayor, luego
+        //saco 1, por si hubiese 2 con la misma carga.
         val queryCount = "SELECT u.id FROM usuario u LEFT JOIN nota n ON u.id = n.id_trabajador GROUP BY u.id ORDER BY SUM(n.cargatrabajo) ASC LIMIT 1"
 
         Database.getConnection()?.use { conn ->
             var statement = conn.prepareStatement(queryCount)
             val rsCount = statement.executeQuery()
             if (rsCount.next()) {
-                // Usamos el índice 1 ya que el SELECT solo trae u.id
                 idAsignado = rsCount.getInt(1)
             }
 
-            // Añadimos el campo 'fecha' a la consulta SQL
             val sqlInsertNota = "INSERT INTO nota (titulo, descripcion, tipo, cargatrabajo, id_trabajador, fecha) VALUES (?, ?, ?, ?, ?, ?)"
             val stNota = conn.prepareStatement(sqlInsertNota)
             stNota.setString(1, nota.titulo)
@@ -49,7 +46,7 @@ class NotasDAOImpl : NotasDAO {
                         stItem.setInt(1, notaId)
                         stItem.setString(2, item.descripcion)
                         stItem.setBoolean(3, item.completado)
-                        stItem.executeUpdate() // Corregido: executeUpdate para inserción
+                        stItem.executeUpdate()
                     }
                 }
             }
@@ -59,7 +56,6 @@ class NotasDAOImpl : NotasDAO {
     }
 
     override fun insertarAIdEspecifico(nota: Nota, items: List<ItemTarea>?): Boolean {
-        // Añadimos el campo 'fecha' a la consulta SQL
         val sqlInsertNota = "INSERT INTO nota (titulo, descripcion, tipo, cargatrabajo, id_trabajador, fecha) VALUES (?, ?, ?, ?, ?, ?)"
 
         Database.getConnection()?.use { conn ->
@@ -87,7 +83,7 @@ class NotasDAOImpl : NotasDAO {
                         stItem.setInt(1, notaId)
                         stItem.setString(2, item.descripcion)
                         stItem.setBoolean(3, item.completado)
-                        stItem.executeUpdate() // Corregido: executeUpdate para inserción
+                        stItem.executeUpdate()
                     }
                 }
             }
@@ -113,7 +109,7 @@ class NotasDAOImpl : NotasDAO {
                     tipo = resultSet.getString("tipo"),
                     cargatrabajo = resultSet.getInt("cargatrabajo"),
                     id_trabajador = resultSet.getInt("id_trabajador"),
-                    fecha = resultSet.getDate("fecha").toString() // Recuperamos la fecha como String
+                    fecha = resultSet.getDate("fecha").toString()
                 )
 
                 val items = mutableListOf<ItemTarea>()
@@ -138,7 +134,6 @@ class NotasDAOImpl : NotasDAO {
     }
 
     override fun actualizar(id: Int, nota: Nota, items: List<ItemTarea>?): Boolean {
-        // En el UPDATE solemos mantener la fecha original o actualizarla a la actual según prefieras
         val sql = "UPDATE nota SET titulo = ?, descripcion = ?, tipo = ?, cargatrabajo = ?, id_trabajador = ?, fecha = ? WHERE id = ?"
         val connection = Database.getConnection()
 
@@ -149,7 +144,7 @@ class NotasDAOImpl : NotasDAO {
             statement.setString(3, nota.tipo)
             statement.setInt(4, nota.cargatrabajo)
             statement.setInt(5, nota.id_trabajador)
-            statement.setDate(6, Date(System.currentTimeMillis())) // Actualizamos a fecha de hoy
+            statement.setDate(6, Date(System.currentTimeMillis()))
             statement.setInt(7, id)
 
             val resultado = statement.executeUpdate() > 0
@@ -181,32 +176,28 @@ class NotasDAOImpl : NotasDAO {
     override fun borrar(id: Int): Boolean {
         val sqlItems = "DELETE FROM itemstarea WHERE notaid = ?"
         val sqlNota = "DELETE FROM nota WHERE id = ?"
-        val connection = Database.getConnection()
+        val connection = Database.getConnection() ?: return false
 
-        return connection?.use { conn ->
-            // 1. Forzamos el borrado de los items primero
-            val statementItems = conn.prepareStatement(sqlItems)
-            statementItems.setInt(1, id)
-            statementItems.executeUpdate()
+        val psItems = connection.prepareStatement(sqlItems)
+        psItems.setInt(1, id)
+        psItems.executeUpdate()
 
-            // 2. Ahora borramos la nota
-            val statementNota = conn.prepareStatement(sqlNota)
-            statementNota.setInt(1, id)
+        val psNota = connection.prepareStatement(sqlNota)
+        psNota.setInt(1, id)
 
-            val filasBorradas = statementNota.executeUpdate()
-            filasBorradas > 0 // Si devuelve false aquí, el ID no coincide exactamente
-        } ?: false
+        val filasBorradas = psNota.executeUpdate()
+
+        return filasBorradas > 0
     }
 
     override fun obtenerPorUsuario(idTrabajador: Int): List<NotaConItems> {
         val lista = mutableListOf<NotaConItems>()
-        // FILTRO CRUCIAL: Añadimos el WHERE id_trabajador = ?
         val sql = "SELECT * FROM nota WHERE id_trabajador = ?"
         val connection = Database.getConnection()
 
         connection?.use { conn ->
             val statement = conn.prepareStatement(sql)
-            statement.setInt(1, idTrabajador) // Pasamos el ID del usuario logueado
+            statement.setInt(1, idTrabajador)
             val resultSet = statement.executeQuery()
 
             while (resultSet.next()) {

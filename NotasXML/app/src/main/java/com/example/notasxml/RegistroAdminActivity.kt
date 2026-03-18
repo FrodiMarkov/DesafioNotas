@@ -13,14 +13,12 @@ import com.example.notasxml.databinding.ActivityRegistroAdminBinding
 class RegistroAdminActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistroAdminBinding
-    // En Activity se usa directamente by viewModels() sin requireContext()
     private val viewModel: RegistroAdminViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Inflar el binding
         binding = ActivityRegistroAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -29,7 +27,6 @@ class RegistroAdminActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        // 1. Configurar el Dropdown de Roles
         val opcionesRol = arrayOf("Usuario", "Admin")
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, opcionesRol)
         binding.spinnerRol.setAdapter(adapter)
@@ -52,7 +49,6 @@ class RegistroAdminActivity : AppCompatActivity() {
                     rol = rolNum,
                     foto = ""
                 )
-
                 viewModel.registrarUsuario(nuevaPersona)
             } else {
                 Toast.makeText(this, "Faltan campos por rellenar", Toast.LENGTH_SHORT).show()
@@ -68,7 +64,6 @@ class RegistroAdminActivity : AppCompatActivity() {
         viewModel.registroExitoso.observe(this) { exito ->
             if (exito) {
                 Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
-                // Cierra la Activity y vuelve a la anterior
                 finish()
             }
         }

@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import com.example.notasxml.Helpers.UsuarioHolder
 import com.example.notasxml.ViewModels.PerfilViewModel
 import com.example.notasxml.databinding.FragmentPerfilBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class PerfilFragment : Fragment() {
 

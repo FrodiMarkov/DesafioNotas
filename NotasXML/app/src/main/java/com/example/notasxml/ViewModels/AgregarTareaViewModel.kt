@@ -33,7 +33,6 @@ class AgregarTareaViewModel : ViewModel() {
         }
     }
 
-    // Para el caso RANDOM
     fun crearTareaRandom(request: NotaRequest) {
         viewModelScope.launch {
             try {
@@ -45,7 +44,6 @@ class AgregarTareaViewModel : ViewModel() {
         }
     }
 
-    // Para el caso ESPECÍFICO
     fun crearTareaEspecifica(request: NotaRequest) {
         viewModelScope.launch {
             try {

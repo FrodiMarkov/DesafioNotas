@@ -16,7 +16,6 @@ fun Route.userRouting() {
     val usuarioDAO: UsuarioDAO = UsuarioDAOImpl()
 
     route("/usuarios") {
-        // GET http://localhost:8095/usuarios
         get {
             val usuarios = usuarioDAO.obtenerTodos()
             if (usuarios.isNotEmpty()) {
@@ -26,7 +25,6 @@ fun Route.userRouting() {
             }
         }
 
-        // GET http://localhost:8095/usuarios/ver/12345678X
         get("/ver/{dni?}") {
             val dni = call.parameters["dni"] ?: return@get call.respond(HttpStatusCode.BadRequest, "DNI vacío")
             val usuario = usuarioDAO.obtener(dni)
@@ -37,7 +35,6 @@ fun Route.userRouting() {
             }
         }
 
-        // POST http://localhost:8095/usuarios/login
         post("/login") {
             val us = call.receive<PersonaLogin>()
             val usuario = usuarioDAO.login(us)
@@ -48,7 +45,6 @@ fun Route.userRouting() {
             }
         }
 
-        // POST http://localhost:8095/usuarios/registrar
         post("/registrar") {
             val us = call.receive<Persona>()
             if (usuarioDAO.insertar(us)) {
@@ -58,7 +54,6 @@ fun Route.userRouting() {
             }
         }
 
-        // DELETE http://localhost:8095/usuarios/borrar/12345678X
         delete("/borrar/{dni?}") {
             val dni = call.parameters["dni"] ?: return@delete call.respond(HttpStatusCode.BadRequest, "DNI vacío")
             if (usuarioDAO.eliminar(dni)) {
@@ -68,7 +63,6 @@ fun Route.userRouting() {
             }
         }
 
-        // PUT http://localhost:8095/usuarios/modificar/12345678X
         put("/modificar/{dni?}") {
             val dni = call.parameters["dni"] ?: return@put call.respond(HttpStatusCode.BadRequest, "DNI vacío")
             val us = call.receive<Persona>()

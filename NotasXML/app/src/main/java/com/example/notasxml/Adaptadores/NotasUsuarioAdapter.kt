@@ -1,31 +1,41 @@
 package com.example.notasxml
 
+import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.Modelos.NotaConItems
+import com.example.notasxml.Helpers.NotasHolder
 import com.example.notasxml.Helpers.UsuarioHolder
-import com.example.notasxml.ViewModels.NotasUsuarioViewModel
+import com.example.notasxml.ViewModels.NotasViewModel
 import com.example.notasxml.databinding.NotasCardBinding
 
-class NotasUsuarioAdapter(private val viewModel: NotasUsuarioViewModel) :
+class NotasUsuarioAdapter(private val viewModel: NotasViewModel) :
     ListAdapter<NotaConItems, NotasUsuarioAdapter.NotaViewHolder>(DiffCallback()) {
-
 
     class NotaViewHolder(private val binding: NotasCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         var usuario = UsuarioHolder.usuario
-        fun bind(item: NotaConItems, viewModel: NotasUsuarioViewModel) {
+
+        fun bind(item: NotaConItems, viewModel: NotasViewModel) {
             val nota = item.nota
 
             binding.tvTituloItem.text = nota.titulo
             binding.tvFechaItem.text = nota.fecha
 
-            // Click largo para borrar
+            binding.tvTipoItem.text = nota.tipo.uppercase()
+
+            if (nota.tipo.equals("Tarea", ignoreCase = true)) {
+                binding.tvTipoItem.setTextColor(Color.BLUE)
+            } else {
+                binding.tvTipoItem.setTextColor(Color.parseColor("#2E7D32"))
+            }
+
             binding.root.setOnLongClickListener {
                 val context = binding.root.context
                 nota.id?.let { id ->
@@ -41,10 +51,19 @@ class NotasUsuarioAdapter(private val viewModel: NotasUsuarioViewModel) :
                 true
             }
 
-            // Click normal para detalles
             binding.root.setOnClickListener {
-                val msj = "Prioridad: ${nota.cargatrabajo} | Tipo: ${nota.tipo}"
-                Toast.makeText(binding.root.context, msj, Toast.LENGTH_SHORT).show()
+                val contexto = binding.root.context
+
+                NotasHolder.nota = item.nota
+                NotasHolder.items = item.items ?: emptyList()
+
+                val intent = if (item.nota.tipo.equals("Tarea", ignoreCase = true)) {
+                    Intent(contexto, EditarTareaUsuario::class.java)
+                } else {
+                    Intent(contexto, EditarNotaUsuario::class.java)
+                }
+
+                contexto.startActivity(intent)
             }
         }
     }

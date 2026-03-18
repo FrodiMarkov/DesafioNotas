@@ -15,6 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotasXML">
         <activity
+            android:name=".EditarNotaUsuario"
+            android:exported="false" />
+        <activity
+            android:name=".EditarTareaUsuario"
+            android:exported="false" />
+        <activity
+            android:name=".CrearTareaUsuario"
+            android:exported="false" />
+        <activity
+            android:name=".CrearNotaUsuario"
+            android:exported="false" />
+        <activity
             android:name=".NotasActivity"
             android:exported="false" />
         <activity

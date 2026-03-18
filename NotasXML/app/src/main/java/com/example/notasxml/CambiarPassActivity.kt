@@ -41,7 +41,6 @@ class CambiarPassActivity : AppCompatActivity() {
             val pass2 = binding.etConfirmarPass.text.toString()
 
             if (pass1.isNotEmpty() && pass1 == pass2) {
-                // Obtenemos el usuario actual del Singleton y modificamos el password
                 val usuarioEditado = UsuarioHolder.usuario
                 usuarioEditado.password = pass1
 
