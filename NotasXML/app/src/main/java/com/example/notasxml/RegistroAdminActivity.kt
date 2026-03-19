@@ -31,7 +31,6 @@ class RegistroAdminActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, opcionesRol)
         binding.spinnerRol.setAdapter(adapter)
 
-        // 2. Lógica del botón registrar
         binding.btnRegistrar.setOnClickListener {
             val nombre = binding.etNombre.text.toString().trim()
             val dni = binding.etDni.text.toString().trim()
@@ -67,7 +66,6 @@ class RegistroAdminActivity : AppCompatActivity() {
                 finish()
             }
         }
-
         viewModel.mensajeError.observe(this) { error ->
             Toast.makeText(this, error, Toast.LENGTH_LONG).show()
         }

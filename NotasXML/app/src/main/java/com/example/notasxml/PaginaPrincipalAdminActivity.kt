@@ -49,9 +49,8 @@ class PaginaPrincipalAdminActivity : AppCompatActivity() {
                     true
                 }
                 else -> {
-                    val handled = NavigationUI.onNavDestinationSelected(menuItem, navController)
                     binding.drawerLayoutAdmin.closeDrawer(GravityCompat.START)
-                    handled
+                    NavigationUI.onNavDestinationSelected(menuItem, navController)
                 }
             }
         }

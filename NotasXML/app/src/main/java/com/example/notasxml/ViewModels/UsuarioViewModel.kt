@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notasxml.API.Retrofit
+import com.example.notasxml.Helpers.UsuarioHolder
 import kotlinx.coroutines.launch
 
 class UsuarioViewModel : ViewModel() {
@@ -53,17 +54,21 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
-    fun cambiarImagen(persona: Persona) {
+    fun cambiarImagen(base64: String) {
         viewModelScope.launch {
             try {
-                val response = usuariosService.actualizar(persona.dni, persona)
+                val usuarioActual = UsuarioHolder.usuario
+
+                usuarioActual.foto = base64
+
+                val response = usuariosService.actualizar(usuarioActual.dni, usuarioActual)
                 if (response.isSuccessful) {
                     _operacionExitosa.value = true
                 } else {
-                    _errorMessage.value = "Error al cambiar imagen: ${response.code()}"
+                    _errorMessage.value = "Error al subir: ${response.code()}"
                 }
             } catch (e: Exception) {
-                _errorMessage.value = "Error de red: ${e.message}"
+                _errorMessage.value = "Error de conexión: ${e.message}"
             }
         }
     }

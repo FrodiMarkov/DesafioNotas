@@ -10,6 +10,7 @@ data class Persona(
     var password:String,
     var rol:Int,
     var foto: String){
+
     override fun toString(): String {
         return nombre
     }
