@@ -72,7 +72,6 @@ class EditarTareaUsuarioFragment : Fragment() {
             )
         }
 
-        // Botón Cancelar
         binding.btnCancelarTarea.setOnClickListener {
             findNavController().navigateUp()
         }
