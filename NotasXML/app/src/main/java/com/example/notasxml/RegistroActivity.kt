@@ -41,5 +41,8 @@ class RegistroActivity : AppCompatActivity() {
                 Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
+        binding.btnVolver.setOnClickListener {
+            finish()
+        }
     }
 }

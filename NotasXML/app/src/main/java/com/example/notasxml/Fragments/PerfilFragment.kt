@@ -1,6 +1,5 @@
-package com.example.notasxml
+package com.example.notasxml.Fragments
 
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -8,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.notasxml.Helpers.UsuarioHolder
+import com.example.notasxml.R
 import com.example.notasxml.databinding.FragmentPerfilBinding
 
 class PerfilFragment : Fragment() {
@@ -26,26 +27,17 @@ class PerfilFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1. CARGA INICIAL: Nada más crear la vista
         actualizarInterfaz()
 
         binding.btnCambiarFoto.setOnClickListener {
-            startActivity(Intent(requireContext(), CambiarImagenActivity::class.java))
+            findNavController().navigate(R.id.action_perfilFragment2_to_cambiarImagenFragment)
         }
 
         binding.btnCambiarPassword.setOnClickListener {
-            startActivity(Intent(requireContext(), CambiarPassActivity::class.java))
+            findNavController().navigate(R.id.action_perfilFragment2_to_cambiarPassFragment)
         }
     }
 
-    // 2. Mantenemos tu lógica para evitar el delay al cambiar de pestaña
-    override fun onPause() {
-        super.onPause()
-        actualizarInterfaz()
-    }
-
-    // 3. También lo ponemos en onResume para cuando vuelves de CambiarImagenActivity
-    // Si no, al volver de cambiar la foto, no verías el cambio hasta salir y entrar al fragmento.
     override fun onResume() {
         super.onResume()
         actualizarInterfaz()
@@ -58,27 +50,22 @@ class PerfilFragment : Fragment() {
 
         if (!usuario.foto.isNullOrEmpty()) {
             try {
-                // 1. Limpieza: Quitamos posibles espacios o encabezados que ensucian el Base64
                 val cleanBase64 = usuario.foto!!
                     .replace("data:image/png;base64,", "")
                     .replace("data:image/jpeg;base64,", "")
                     .replace("\n", "")
                     .trim()
 
-                // 2. Decodificación
                 val imageBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
                 val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 
-                // 3. Verificamos que el bitmap no sea nulo antes de ponerlo
                 if (decodedImage != null) {
                     binding.ivPerfil.setImageBitmap(decodedImage)
                 } else {
-                    // Si falla la decodificación, ponemos un icono por defecto para saberlo
                     binding.ivPerfil.setImageResource(android.R.drawable.ic_menu_gallery)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                // Si hay error, que al menos no se quede el hueco blanco total
                 binding.ivPerfil.setImageResource(android.R.drawable.ic_menu_report_image)
             }
         }

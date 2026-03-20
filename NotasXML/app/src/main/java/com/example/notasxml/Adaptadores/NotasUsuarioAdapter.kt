@@ -1,6 +1,5 @@
 package com.example.notasxml
 
-import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.example.notasxml.Helpers.UsuarioHolder
 import com.example.notasxml.ViewModels.NotasViewModel
 import com.example.notasxml.databinding.NotasCardBinding
 import androidx.core.graphics.toColorInt
+import androidx.navigation.findNavController
 
 class NotasUsuarioAdapter(private val viewModel: NotasViewModel) :
     ListAdapter<NotaConItems, NotasUsuarioAdapter.NotaViewHolder>(DiffCallback()) {
@@ -21,14 +21,13 @@ class NotasUsuarioAdapter(private val viewModel: NotasViewModel) :
     class NotaViewHolder(private val binding: NotasCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        var usuario = UsuarioHolder.usuario
+        private val usuario = UsuarioHolder.usuario
 
         fun bind(item: NotaConItems, viewModel: NotasViewModel) {
             val nota = item.nota
 
             binding.tvTituloItem.text = nota.titulo
             binding.tvFechaItem.text = nota.fecha
-
             binding.tvTipoItem.text = nota.tipo.uppercase()
 
             if (nota.tipo.equals("Tarea", ignoreCase = true)) {
@@ -37,7 +36,7 @@ class NotasUsuarioAdapter(private val viewModel: NotasViewModel) :
                 binding.tvTipoItem.setTextColor("#2E7D32".toColorInt())
             }
 
-            binding.root.setOnLongClickListener {
+            binding.btnEliminarNota.setOnClickListener {
                 val context = binding.root.context
                 nota.id?.let { id ->
                     AlertDialog.Builder(context)
@@ -49,21 +48,18 @@ class NotasUsuarioAdapter(private val viewModel: NotasViewModel) :
                         .setNegativeButton("No", null)
                         .show()
                 }
-                true
             }
 
-            binding.root.setOnClickListener {
-                val contexto = binding.root.context
-
+            binding.root.setOnClickListener { view ->
                 NotasHolder.nota = item.nota
                 NotasHolder.items = item.items
+                val navController = view.findNavController()
 
-                val intent = if (item.nota.tipo.equals("Tarea", ignoreCase = true)) {
-                    Intent(contexto, EditarTareaUsuario::class.java)
+                if (item.nota.tipo.equals("Tarea", ignoreCase = true)) {
+                    navController.navigate(R.id.action_notasUsuarioFragment_to_editarTareaUsuarioFragment)
                 } else {
-                    Intent(contexto, EditarNotaUsuario::class.java)
+                    navController.navigate(R.id.action_notasUsuarioFragment_to_editarNotaUsuarioFragment)
                 }
-                contexto.startActivity(intent)
             }
         }
     }

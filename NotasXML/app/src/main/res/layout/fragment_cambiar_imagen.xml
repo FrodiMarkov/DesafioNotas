@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".CambiarImagenActivity">
+    android:background="#F8F9FF"
+    tools:context=".Fragments.CambiarImagenFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivNuevaImagen"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="Cambiar Foto (Galería)"
+        android:backgroundTint="#6200EE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivNuevaImagen" />
@@ -38,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Guardar Cambios"
+        android:backgroundTint="#6200EE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBuscarGaleria" />
@@ -49,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Volver"
+        android:textColor="#6200EE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnGuardarImagen" />

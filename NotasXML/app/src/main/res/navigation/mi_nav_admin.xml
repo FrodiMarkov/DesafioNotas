@@ -7,26 +7,64 @@
 
     <fragment
         android:id="@+id/nav_usuarios"
-        android:name="com.example.notasxml.PaginaUsuarioFragment"
+        android:name="com.example.notasxml.Fragments.PaginaUsuarioFragment"
         android:label="Gestión de Usuarios"
         tools:layout="@layout/fragment_usuario">
         <action
             android:id="@+id/action_nav_usuarios_to_nav_perfil"
             app:destination="@id/nav_perfil" />
+        <action
+            android:id="@+id/action_nav_usuarios_to_editarUsuarioFragment"
+            app:destination="@id/editarUsuarioFragment" />
+        <action
+            android:id="@+id/action_nav_usuarios_to_registroAdminFragment"
+            app:destination="@id/registroAdminFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_perfil"
-        android:name="com.example.notasxml.PerfilFragment"
+        android:name="com.example.notasxml.Fragments.PerfilFragment"
         android:label="Perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil" >
+        <action
+            android:id="@+id/action_perfilFragment2_to_cambiarImagenFragment"
+            app:destination="@id/cambiarImagenFragment2" />
+        <action
+            android:id="@+id/action_perfilFragment2_to_cambiarPassFragment"
+            app:destination="@id/cambiarPassFragment2" />
+    </fragment>
+
     <fragment
         android:id="@+id/nav_notas"
-        android:name="com.example.notasxml.AgregarTareaFragment"
+        android:name="com.example.notasxml.Fragments.AgregarTareaFragment"
         android:label="Gestionar Tareas" >
         <action
             android:id="@+id/action_nav_notas_to_nav_usuarios"
             app:destination="@id/nav_usuarios" />
     </fragment>
+
+    <fragment
+        android:id="@+id/editarUsuarioFragment"
+        android:name="com.example.notasxml.Fragments.EditarUsuarioFragment"
+        android:label="Editar Usuario"
+        tools:layout="@layout/fragment_editar_usuario" />
+
+    <fragment
+        android:id="@+id/registroAdminFragment"
+        android:name="com.example.notasxml.Fragments.RegistroAdminFragment"
+        android:label="Registro Admin"
+        tools:layout="@layout/fragment_registro_admin" />
+
+    <fragment
+        android:id="@+id/cambiarImagenFragment2"
+        android:name="com.example.notasxml.Fragments.CambiarImagenFragment"
+        android:label="Cambiar Imagen"
+        tools:layout="@layout/fragment_cambiar_imagen" />
+
+    <fragment
+        android:id="@+id/cambiarPassFragment2"
+        android:name="com.example.notasxml.Fragments.CambiarPassFragment"
+        android:label="Cambiar Contraseña"
+        tools:layout="@layout/fragment_cambiar_pass" />
 
 </navigation>

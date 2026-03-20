@@ -4,18 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mi_nav"
     app:startDestination="@id/notasUsuarioFragment">
+
     <fragment
         android:id="@+id/perfilFragment2"
-        android:name="com.example.notasxml.PerfilFragment"
+        android:name="com.example.notasxml.Fragments.PerfilFragment"
         android:label="Perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil">
+        <action
+            android:id="@+id/action_perfilFragment2_to_cambiarImagenFragment"
+            app:destination="@id/cambiarImagenFragment" />
+        <action
+            android:id="@+id/action_perfilFragment2_to_editarUsuarioFragment2"
+            app:destination="@id/editarUsuarioFragment2" />
+        <action
+            android:id="@+id/action_perfilFragment2_to_cambiarPassFragment"
+            app:destination="@id/cambiarPassFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/notasUsuarioFragment"
-        android:name="com.example.notasxml.NotasUsuarioFragment"
+        android:name="com.example.notasxml.Fragments.NotasUsuarioFragment"
         android:label="Notas Usuario"
-        tools:layout="@layout/fragment_notas_usuario" >
+        tools:layout="@layout/fragment_notas_usuario">
         <action
             android:id="@+id/action_notasUsuarioFragment_to_perfilFragment2"
             app:destination="@id/perfilFragment2" />
+        <action
+            android:id="@+id/action_notasUsuarioFragment_to_crearNotaUsuarioFragment"
+            app:destination="@id/crearNotaUsuarioFragment" />
+        <action
+            android:id="@+id/action_notasUsuarioFragment_to_crearTareaUsuarioFragment"
+            app:destination="@id/crearTareaUsuarioFragment" />
+        <action
+            android:id="@+id/action_notasUsuarioFragment_to_editarNotaUsuarioFragment"
+            app:destination="@id/editarNotaUsuarioFragment" />
+        <action
+            android:id="@+id/action_notasUsuarioFragment_to_editarTareaUsuarioFragment"
+            app:destination="@id/editarTareaUsuarioFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/crearNotaUsuarioFragment"
+        android:name="com.example.notasxml.Fragments.CrearNotaUsuarioFragment"
+        android:label="Crear Nota"
+        tools:layout="@layout/fragment_crear_nota_usuario" />
+
+    <fragment
+        android:id="@+id/crearTareaUsuarioFragment"
+        android:name="com.example.notasxml.Fragments.CrearTareaUsuarioFragment"
+        android:label="Crear Tarea"
+        tools:layout="@layout/fragment_crear_tarea_usuario" />
+
+    <fragment
+        android:id="@+id/editarNotaUsuarioFragment"
+        android:name="com.example.notasxml.Fragments.EditarNotaUsuarioFragment"
+        android:label="Editar Nota"
+        tools:layout="@layout/fragment_editar_nota_usuario" />
+
+    <fragment
+        android:id="@+id/editarTareaUsuarioFragment"
+        android:name="com.example.notasxml.Fragments.EditarTareaUsuarioFragment"
+        android:label="Editar Tarea"
+        tools:layout="@layout/fragment_editar_tarea_usuario" />
+
+    <fragment
+        android:id="@+id/cambiarImagenFragment"
+        android:name="com.example.notasxml.Fragments.CambiarImagenFragment"
+        android:label="Cambiar Imagen"
+        tools:layout="@layout/fragment_cambiar_imagen" />
+
+    <fragment
+        android:id="@+id/editarUsuarioFragment2"
+        android:name="com.example.notasxml.Fragments.EditarUsuarioFragment"
+        android:label="Editar Usuario"
+        tools:layout="@layout/fragment_editar_usuario" />
+
+    <fragment
+        android:id="@+id/cambiarPassFragment"
+        android:name="com.example.notasxml.Fragments.CambiarPassFragment"
+        android:label="Cambiar Contraseña"
+        tools:layout="@layout/fragment_cambiar_pass" />
+
 </navigation>

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".EditarTareaUsuario">
+    android:background="#F8F9FF"
+    tools:context=".Fragments.EditarTareaUsuarioFragment">
 
     <TextView
         android:id="@+id/tvEditarTarea"
@@ -15,6 +16,7 @@
         android:text="Editar Tarea"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="#311B92"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -24,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Título de la tarea"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEditarTarea" />
@@ -55,13 +57,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Nueva subtarea..." />
+            android:hint="Nueva subtarea..."
+            android:inputType="textCapSentences" />
 
         <Button
             android:id="@+id/btnAgregarItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+" />
+            android:text="+"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -77,25 +81,27 @@
         tools:listitem="@android:layout/simple_list_item_1" />
 
     <Button
+        android:id="@+id/btnCancelarTarea"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="Cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnGuardarTarea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        android:layout_marginEnd="4dp"/>
+
+    <Button
         android:id="@+id/btnGuardarTarea"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:text="Guardar Cambios"
-        android:backgroundTint="@color/design_default_color_primary"
+        android:backgroundTint="#6200EE"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnCancelarTarea"
-        android:layout_marginStart="8dp"/>
-
-    <Button
-        android:id="@+id/btnCancelarTarea"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Cancelar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnGuardarTarea"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="4dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

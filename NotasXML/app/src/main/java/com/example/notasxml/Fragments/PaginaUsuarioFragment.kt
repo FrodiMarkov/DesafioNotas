@@ -1,6 +1,5 @@
-package com.example.notasxml
+package com.example.notasxml.Fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,23 +8,20 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.notasxml.Helpers.UsuarioHolder
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.notasxml.R
+import com.example.notasxml.UsuarioAdapter
 import com.example.notasxml.ViewModels.UsuarioViewModel
 import com.example.notasxml.databinding.FragmentUsuarioBinding
 
 class PaginaUsuarioFragment : Fragment() {
 
-    private var _binding: FragmentUsuarioBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding: FragmentUsuarioBinding
     private val viewModel: UsuarioViewModel by viewModels()
     private lateinit var miAdaptador: UsuarioAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentUsuarioBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentUsuarioBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -33,28 +29,25 @@ class PaginaUsuarioFragment : Fragment() {
         super.onViewCreated(vista, savedInstanceState)
 
         miAdaptador = UsuarioAdapter(viewModel)
-        binding.rvUsuarios.adapter = miAdaptador
+        binding.rvUsuarios.apply {
+            adapter = miAdaptador
+            layoutManager = LinearLayoutManager(requireContext())
+        }
 
-        binding.rvUsuarios.adapter = miAdaptador
+        binding.btnAnadir.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_usuarios_to_registroAdminFragment)
+        }
 
         viewModel.usuarios.observe(viewLifecycleOwner) { listaPersonas ->
             miAdaptador.submitList(listaPersonas)
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { mensajeError ->
-            Toast.makeText(requireContext(), mensajeError, Toast.LENGTH_SHORT).show()
+            mensajeError?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
         }
 
         viewModel.obtenerUsuarios()
-
-        binding.btnAnadir.setOnClickListener {
-            val intent = Intent(requireContext(), RegistroAdminActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

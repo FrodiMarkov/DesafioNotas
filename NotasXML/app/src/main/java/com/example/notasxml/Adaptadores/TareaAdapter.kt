@@ -2,6 +2,7 @@ package com.example.notasxml.Adaptadores
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,23 +14,37 @@ class TareaAdapter : ListAdapter<ItemTarea, TareaAdapter.TareaViewHolder>(DiffCa
     class TareaViewHolder(private val binding: ItemTareaBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemTarea, position: Int, adapter: TareaAdapter) {
+        fun bind(item: ItemTarea, adapter: TareaAdapter) {
             binding.cbCompletado.setOnCheckedChangeListener(null)
 
             binding.tvDescripcion.text = item.descripcion
             binding.cbCompletado.isChecked = item.completado
 
             binding.cbCompletado.setOnCheckedChangeListener { _, isChecked ->
-                val listaActual = adapter.currentList.toMutableList()
-                listaActual[position] = item.copy(completado = isChecked)
-                adapter.submitList(listaActual)
+                val pos = bindingAdapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    val listaActual = adapter.currentList.toMutableList()
+                    listaActual[pos] = item.copy(completado = isChecked)
+                    adapter.submitList(listaActual)
+                }
             }
 
-            binding.root.setOnLongClickListener {
-                val listaActual = adapter.currentList.toMutableList()
-                listaActual.removeAt(position)
-                adapter.submitList(listaActual)
-                true
+            binding.btnEliminarTarea.setOnClickListener {
+                val context = binding.root.context
+                val pos = bindingAdapterPosition
+
+                if (pos != RecyclerView.NO_POSITION) {
+                    AlertDialog.Builder(context)
+                        .setTitle("Eliminar tarea")
+                        .setMessage("¿Estás seguro de que quieres borrar esta tarea?")
+                        .setPositiveButton("Eliminar") { _, _ ->
+                            val listaActual = adapter.currentList.toMutableList()
+                            listaActual.removeAt(pos)
+                            adapter.submitList(listaActual)
+                        }
+                        .setNegativeButton("Cancelar", null)
+                        .show()
+                }
             }
         }
     }
@@ -40,7 +55,7 @@ class TareaAdapter : ListAdapter<ItemTarea, TareaAdapter.TareaViewHolder>(DiffCa
     }
 
     override fun onBindViewHolder(holder: TareaViewHolder, position: Int) {
-        holder.bind(getItem(position), position, this)
+        holder.bind(getItem(position), this)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<ItemTarea>() {

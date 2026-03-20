@@ -1,6 +1,7 @@
-package com.example.notasxml
+package com.example.notasxml.Fragments
 
 import Modelos.Persona
+import android.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,7 +42,7 @@ class AgregarTareaFragment : Fragment() {
         viewModel.cargarUsuarios()
         viewModel.usuarios.observe(viewLifecycleOwner) { usuarios ->
             listaUsuarios = usuarios
-            val adapterDrop = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, usuarios)
+            val adapterDrop = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item, usuarios)
             binding.dropUsuarios.setAdapter(adapterDrop)
         }
 

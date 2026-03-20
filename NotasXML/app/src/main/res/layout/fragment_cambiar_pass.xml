@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    tools:context=".CambiarPassActivity">
+    android:background="#F8F9FF"
+    tools:context=".Fragments.CambiarPassFragment">
 
     <TextView
         android:id="@+id/tvTituloPass"
@@ -15,17 +16,20 @@
         android:text="Cambiar Contraseña"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="#311B92"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="40dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilNuevaPass"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:passwordToggleEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/tvTituloPass">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNuevaPass"
             android:layout_width="match_parent"
@@ -36,11 +40,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilConfirmarPass"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:passwordToggleEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/tilNuevaPass">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etConfirmarPass"
             android:layout_width="match_parent"
@@ -54,7 +60,9 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:text="Guardar Nueva Contraseña"
+        android:backgroundTint="#6200EE"
         android:layout_marginTop="32dp"
+        app:cornerRadius="8dp"
         app:layout_constraintTop_toBottomOf="@id/tilConfirmarPass" />
 
     <Button
@@ -63,6 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancelar y Volver"
+        android:textColor="#6200EE"
         app:layout_constraintTop_toBottomOf="@id/btnGuardarPass"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

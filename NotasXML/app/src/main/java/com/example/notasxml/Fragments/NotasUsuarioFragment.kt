@@ -1,6 +1,5 @@
-package com.example.notasxml
+package com.example.notasxml.Fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +7,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.notasxml.Helpers.UsuarioHolder
+import com.example.notasxml.NotasUsuarioAdapter
+import com.example.notasxml.R
 import com.example.notasxml.ViewModels.NotasViewModel
 import com.example.notasxml.databinding.FragmentNotasUsuarioBinding
 
 class NotasUsuarioFragment : Fragment() {
 
-    // Uso de lateinit como pediste para evitar los nulos de _binding
     private lateinit var binding: FragmentNotasUsuarioBinding
     private val viewModel: NotasViewModel by viewModels()
     private lateinit var notasAdapter: NotasUsuarioAdapter
@@ -35,11 +36,11 @@ class NotasUsuarioFragment : Fragment() {
         }
 
         binding.btnAnadirNota.setOnClickListener {
-            startActivity(Intent(requireContext(), CrearNotaUsuario::class.java))
+            findNavController().navigate(R.id.action_notasUsuarioFragment_to_crearNotaUsuarioFragment)
         }
 
         binding.btnAnadirTarea.setOnClickListener {
-            startActivity(Intent(requireContext(), CrearTareaUsuario::class.java))
+            findNavController().navigate(R.id.action_notasUsuarioFragment_to_crearTareaUsuarioFragment)
         }
 
         viewModel.notas.observe(viewLifecycleOwner) { lista ->

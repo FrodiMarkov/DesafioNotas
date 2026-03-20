@@ -1,25 +1,26 @@
-package com.example.notasxml
+package com.example.notasxml.Fragments
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.notasxml.ViewModels.UsuarioViewModel
-import com.example.notasxml.databinding.ActivityCambiarImagenBinding
+import com.example.notasxml.databinding.FragmentCambiarImagenBinding
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
-class CambiarImagenActivity : AppCompatActivity() {
+class CambiarImagenFragment : Fragment() {
 
-    private lateinit var binding: ActivityCambiarImagenBinding
+    private lateinit var binding: FragmentCambiarImagenBinding
     private val viewModel: UsuarioViewModel by viewModels()
     private var base64Imagen: String? = null
 
@@ -30,18 +31,16 @@ class CambiarImagenActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentCambiarImagenBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding = ActivityCambiarImagenBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.btnBuscarGaleria.setOnClickListener {
             galleryLauncher.launch("image/*")
@@ -50,19 +49,21 @@ class CambiarImagenActivity : AppCompatActivity() {
         binding.btnGuardarImagen.setOnClickListener {
             if (base64Imagen != null) {
                 viewModel.cambiarImagen(base64Imagen!!)
-                Toast.makeText(this, "Imagen lista para subir", Toast.LENGTH_SHORT).show()
-                finish()
+                Toast.makeText(requireContext(), "Imagen lista para subir", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            } else {
+                Toast.makeText(requireContext(), "Selecciona una imagen primero", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.btnVolverImagen.setOnClickListener {
-            finish()
+            findNavController().navigateUp()
         }
     }
 
     private fun uriToBase64(uri: Uri): String? {
         return try {
-            val inputStream: InputStream? = contentResolver.openInputStream(uri)
+            val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
             val bitmap = BitmapFactory.decodeStream(inputStream)
             val outputStream = ByteArrayOutputStream()
 

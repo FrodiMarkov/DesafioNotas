@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
@@ -17,24 +18,39 @@
             android:id="@+id/tvTituloItem"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Título de la nota"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
+            android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            app:layout_constraintEnd_toStartOf="@+id/tvFechaItem"
+            android:text="Título de la nota"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btnEliminarNota"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnEliminarNota"
+            android:layout_width="19dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eliminar nota"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#D32F2F" />
 
         <TextView
             android:id="@+id/tvTipoItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="TIPO"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTituloItem" />
 
@@ -43,11 +59,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2026-03-03"
-            android:textSize="14sp"
             android:textColor="@android:color/darker_gray"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/btnEliminarNota"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
