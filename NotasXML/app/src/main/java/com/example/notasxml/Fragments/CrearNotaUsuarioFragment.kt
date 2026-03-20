@@ -43,7 +43,6 @@ class CrearNotaUsuarioFragment : Fragment() {
             }
         }
 
-        // OBSERVADORES
         viewModel.guardadoExitoso.observe(viewLifecycleOwner) { exitoso ->
             if (exitoso == true) {
                 Toast.makeText(requireContext(), "Nota guardada con éxito", Toast.LENGTH_SHORT).show()

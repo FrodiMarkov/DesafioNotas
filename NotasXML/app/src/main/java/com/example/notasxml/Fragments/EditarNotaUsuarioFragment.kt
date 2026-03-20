@@ -53,10 +53,6 @@ class EditarNotaUsuarioFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        setupObservers()
-    }
-
-    private fun setupObservers() {
         viewModel.guardadoExitoso.observe(viewLifecycleOwner) { exitoso ->
             if (exitoso) {
                 Toast.makeText(requireContext(), "Nota actualizada", Toast.LENGTH_SHORT).show()

@@ -39,7 +39,6 @@ class EditarUsuarioFragment : Fragment() {
             binding.etPasswordEditar.setText(usuario.password)
             val rolTexto = if (usuario.rol == 1) "Admin" else "Usuario"
 
-            // El 'false' es clave: evita que el Autocomplete filtre la lista y te oculte la otra opción
             binding.spinnerRolEditar.setText(rolTexto, false)
         }
 

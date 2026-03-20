@@ -54,7 +54,6 @@ class EditarTareaUsuarioFragment : Fragment() {
             }
         }
 
-        // Botón Guardar
         binding.btnGuardarTarea.setOnClickListener {
             val titulo = binding.etTituloTarea.text.toString().trim()
             val desc = binding.etDescTarea.text.toString().trim()
